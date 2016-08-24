@@ -1,0 +1,8 @@
+alias cdata='cd /Volumes/esd/data/mnettesheim/'
+alias cdocs='cd /Volumes/esd/docs/mnettesheim/'
+alias cdouarsrc='cd /Volumes/esd/docs/mnettesheim/src/douar-wsmp/src'
+alias csrc='cd /Volumes/esd/docs/mnettesheim/src/douar-wsmp/src'
+alias cdouardocs='cd /Volumes/esd/docs/mnettesheim/documents/DOUAR'
+alias cdouardata='cd /Volumes/esd/docs/mnettesheim/data_small/DOUAR'
+alias cdouarmodels='cd /Volumes/esd/data/mnettesheim/model_runs/DOUAR/'
+alias cdouarvtk='cd /Volumes/esd/data/mnettesheim/data_large/DOUAR/VTK'
