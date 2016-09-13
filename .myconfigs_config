@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	ignorecase = true
+	precomposeunicode = true
+[status]
+	showUntrackedFiles = no
+[user]
+	name = Matthias Nettesheim
+	email = mnettesheim@posteo.de
+[remote "github"]
+	url = https://github.com/emmnett/myconfigs.git
+	fetch = +refs/heads/*:refs/remotes/github/*

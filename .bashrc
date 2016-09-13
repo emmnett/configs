@@ -19,7 +19,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-shopt -s globstar
+#shopt -s globstar
 
 
 # enable color support of ls and also add handy aliases
@@ -49,7 +49,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-alias config='/usr/bin/git --git-dir=/Users/mschmiddunser/.configs/ --work-tree=/Users/mschmiddunser'
+alias myconfigs='/usr/bin/git --git-dir=/Users/mschmiddunser/.myconfigs/ --work-tree=/Users/mschmiddunser'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
