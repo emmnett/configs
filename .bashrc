@@ -32,7 +32,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # some more ls aliases
-alias ls='ls -GFh'
+alias ls='ls -Gh --file-type'
 alias ll='ls -l'
 alias la='ls -A'
 
@@ -49,7 +49,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-alias myconfigs='/usr/bin/git --git-dir=/Users/mschmiddunser/.myconfigs/ --work-tree=/Users/mschmiddunser'
+alias myconfigs='/usr/bin/git --git-dir=$HOME/.myconfigs/ --work-tree=$HOME'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

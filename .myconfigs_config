@@ -4,6 +4,7 @@
 	bare = true
 	ignorecase = true
 	precomposeunicode = true
+        editor = vim
 [status]
 	showUntrackedFiles = no
 [user]
@@ -12,3 +13,7 @@
 [remote "github"]
 	url = https://github.com/emmnett/myconfigs.git
 	fetch = +refs/heads/*:refs/remotes/github/*
+[diff]
+	external = git_vimdiff
+[pager]
+	diff = 
