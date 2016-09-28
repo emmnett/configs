@@ -67,7 +67,8 @@ fi
 export PATH=${PATH}:${HOME}/bin
 
 #change prompt
-PS1='\u@\h:\W$ '
+export PROMPT_DIRTRIM=2
+PS1='\u@\h:\w$ '
 
 function git_diff() {
     git diff --no-ext-diff -w "$@" | vim -R -

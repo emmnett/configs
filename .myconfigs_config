@@ -11,7 +11,7 @@
 	name = Matthias Nettesheim
 	email = mnettesheim@posteo.de
 [remote "github"]
-	url = https://github.com/emmnett/myconfigs.git
+	url = git@github.com:emmnett/myconfigs.git
 	fetch = +refs/heads/*:refs/remotes/github/*
 [diff]
 	external = git_vimdiff
