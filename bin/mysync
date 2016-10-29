@@ -1,0 +1,113 @@
+#!/bin/bash
+
+OPTIONS="$2"
+DOCS="/esd/esd/docs/mnettesheim"
+DATA="/esd/esd/data/mnettesheim"
+
+if [ $1 = "pupload" ] ; then
+    cd $DOCS
+    rsync -vrlpthze ssh $OPTIONS \
+        --exclude ".*" \
+        --exclude "*~" \
+        documents/DOUAR/ epiie01@ilogin.hpc.uni-tuebingen.de:documents
+    cd $DATA
+    rsync -vrlpthze ssh $OPTIONS \
+        --exclude ".*" \
+        --exclude "*~" \
+        --include "/input/" \
+	--include "/input/**" \
+        --include "/qsub/" \
+	--include "/qsub/**" \
+        --exclude "*" \
+        model_runs/DOUAR/ epiie01@ilogin.hpc.uni-tuebingen.de:model_runs
+elif [ $1 = "pdownload" ] ; then
+    cd $DOCS
+    rsync -vrlpthuze ssh $OPTIONS \
+        --exclude ".*" \
+        --exclude "*~" \
+       	epiie01@ilogin.hpc.uni-tuebingen.de:documents/ documents/DOUAR 
+    cd $DATA
+    rsync -vrlpthuze ssh $OPTIONS \
+        --exclude ".*" \
+        --exclude "*~" \
+        --include "/input/" \
+	--include "/input/**" \
+        --include "/qsub/" \
+	--include "/qsub/**" \
+        --include "/out/" \
+	--include "/out/**" \
+        --exclude "*" \
+	epiie01@ilogin.hpc.uni-tuebingen.de:model_runs/ model_runs/DOUAR/
+elif [ $1 = "psrcup" ] ; then
+    cd ${DOCS}/src
+    rsync -vrlpthuze ssh $OPTIONS \
+       	--exclude-from=douar-wsmp/.gitignore /
+        douar-wsmp/ epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp
+elif [ $1 = "psrcdown" ] ; then
+    cd $(DOCS)/src
+    rsync -avhuze ssh $OPTIONS \
+       	--exclude-from=douar-wsmp/.gitignore /
+        epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp/ src/douar-wsmp
+elif [ $1 = "pmodels" ] ; then
+    cd ${DATA}/model_runs/
+    rsync -vrlpthze ssh $OPTIONS \
+        --exclude ".*" \
+        --exclude "*~" \
+        --exclude "/oldruns" \
+        --exclude "/post" \
+        --exclude "/qsub" \
+        --exclude "/input" \
+	--include "*" \
+	epiie01@ilogin.hpc.uni-tuebingen.de:model_runs/ ./DOUAR 
+elif [ $1 = "unidown" ] ; then
+    # Full Download
+    # exclude file links since MacOS reads them as directories
+    cd $HOME
+    rsync -ahvze 'ssh -p 6307' --delete $OPTIONS \
+       	--exclude "/data_small/DOUAR/Tecplot" \
+       	--exclude "/data_small/DOUAR/VTK" \
+       	--exclude "/data_small/DOUAR/DOUAR_models" \
+       	mnettesheim@134.2.58.225:/esd/esd/docs/mnettesheim/ 
+    rsync -ahvze 'ssh -p 6307' --delete $OPTIONS \
+       	--exclude "/model_runs/DOUAR/**.bin" \
+       	--exclude "/model_runs/Gale/**.h5" \
+       	--exclude "/model_runs/Gale/**.xmf" \
+       	--exclude "/model_runs/Comsol/**.mph" \
+	--include "/data_large/DOUAR/" \
+	--exclude "/data_large/*" \
+	--exclude "/data_large/DOUAR/VTK/**.vtk" \
+	--exclude "/data_large/DOUAR/Tecplot/**.dat" \
+	--exclude "/scratch" \
+	--exclude "/oldruns" \
+       	mnettesheim@134.2.58.225:/esd/esd/data/mnettesheim/ unidata/
+elif [ $1 = "uniup" ] ; then
+    # Update only full upload
+    cd $HOME
+    rsync -ahuvze 'ssh -p 6307' $OPTIONS \
+       	unidocs/ mnettesheim@134.2.58.225:/esd/esd/docs/mnettesheim/
+    rsync -ahuvze 'ssh -p 6307' $OPTIONS \
+       	unidata/ mnettesheim@134.2.58.225:/esd/esd/data/mnettesheim/
+elif [ $1 = "serv" ] ; then
+    cd $DOCS
+    rsync -avhz --delete $OPTIONS  \
+       	--exclude "/data_small/DOUAR" \
+        ./ /Users/mschmiddunser/unidocs/
+    cd $DATA
+    rsync -avhz --delete $OPTIONS ./ /Users/mschmiddunser/unidata/
+elif [ $1 = "servup" ] ; then
+    cd $DOCS
+    rsync -avzu $OPTIONS /Users/mschmiddunser/unidocs/ ./
+    cd $DATA
+    rsync -avzu $OPTIONS /Users/mschmiddunser/unidata/ ./
+elif [ $1 = "backup" ] ; then
+    cd /Volumes/esd/
+    rsync --delete -avhz $OPTIONS docs/mnettesheim/ /Volumes/Matthias1TB/DocsBackup/ 
+    rsync --delete -avhz $OPTIONS data/mnettesheim/ /Volumes/Matthias1TB/DataBackup/ 
+    cd /Users/mschmiddunser/
+    rsync --delete -avhz $OPTIONS Desktop/ /Volumes/Matthias1TB/DesktopBackup/ 
+    rsync --delete -avhz $OPTIONS bin/ /Volumes/Matthias1TB/binBackup/ 
+else
+    echo "Please choose correct option" 
+fi
+
+# http://www.linuxproblem.org/art_9.html
