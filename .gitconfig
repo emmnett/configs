@@ -1,0 +1,13 @@
+[user]
+        name = Matthias Nettesheim
+        email = matthias.nettesheim@uni-tuebingen.de
+[core]
+        editor = vim
+[color]
+        ui = true
+[push]
+        default = simple
+[diff]
+	external = git_vimdiff
+[pager]
+	diff = 

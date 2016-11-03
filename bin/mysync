@@ -41,12 +41,12 @@ elif [ $1 = "pdownload" ] ; then
 elif [ $1 = "psrcup" ] ; then
     cd ${DOCS}/src
     rsync -vrlpthuze ssh $OPTIONS \
-       	--exclude-from=douar-wsmp/.gitignore /
+       	--exclude-from=douar-wsmp/.gitignore \
         douar-wsmp/ epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp
 elif [ $1 = "psrcdown" ] ; then
     cd $(DOCS)/src
     rsync -avhuze ssh $OPTIONS \
-       	--exclude-from=douar-wsmp/.gitignore /
+       	--exclude-from=douar-wsmp/.gitignore \
         epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp/ src/douar-wsmp
 elif [ $1 = "pmodels" ] ; then
     cd ${DATA}/model_runs/
