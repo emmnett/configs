@@ -1,0 +1,8 @@
+#! /bin/bash
+
+#Move DOUAR output from out folder to model directory
+
+cd /esd/esd/data/mnettesheim/model_runs/DOUAR/out
+for file in *.out_* ; do
+    mv -v $file ../${file%%.out_*}/${file}
+done

@@ -61,44 +61,37 @@ elif [ $1 = "pmodels" ] ; then
 	epiie01@ilogin.hpc.uni-tuebingen.de:model_runs/ ./DOUAR 
 elif [ $1 = "unidown" ] ; then
     # Full Download
-    # exclude file links since MacOS reads them as directories
     cd $HOME
-    rsync -ahvze 'ssh -p 6307' --delete $OPTIONS \
-       	--exclude "/data_small/DOUAR/Tecplot" \
-       	--exclude "/data_small/DOUAR/VTK" \
-       	--exclude "/data_small/DOUAR/DOUAR_models" \
-       	mnettesheim@134.2.58.225:/esd/esd/docs/mnettesheim/ 
-    rsync -ahvze 'ssh -p 6307' --delete $OPTIONS \
-       	--exclude "/model_runs/DOUAR/**.bin" \
-       	--exclude "/model_runs/Gale/**.h5" \
-       	--exclude "/model_runs/Gale/**.xmf" \
-       	--exclude "/model_runs/Comsol/**.mph" \
-	--include "/data_large/DOUAR/" \
-	--exclude "/data_large/*" \
-	--exclude "/data_large/DOUAR/VTK/**.vtk" \
-	--exclude "/data_large/DOUAR/Tecplot/**.dat" \
-	--exclude "/scratch" \
-	--exclude "/oldruns" \
-       	mnettesheim@134.2.58.225:/esd/esd/data/mnettesheim/ unidata/
+    rsync -vrptlhze 'ssh -p 6307' $OPTIONS \
+	-b --backup-dir="$HOME/tmp/uni-old/" \
+        --exclude ".*" \
+        --exclude "*~" \
+	--exclude "/src/douar-wsmp" \
+	--exclude "/scratch/docsold" \
+       	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/docs/mnettesheim/ unidocs/
+    rsync -vrlpthze 'ssh -p 6307' --delete $OPTIONS \
+        --exclude ".*" \
+        --exclude "*~" \
+        --include "/model_runs" \
+        --include "/model_runs/DOUAR" \
+        --exclude "/model_runs/*" \
+        --include "/model_runs/DOUAR/*" \
+        --exclude "*.dat" \
+        --exclude "*.vtk" \
+        --exclude "*.vtu" \
+        --exclude "*.bin" \
+        --exclude "*.tar" \
+        --exclude "*.tar.?z" \
+        --exclude "/*" \
+      	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/data/mnettesheim/ unidata/
 elif [ $1 = "uniup" ] ; then
     # Update only full upload
     cd $HOME
-    rsync -ahuvze 'ssh -p 6307' $OPTIONS \
-       	unidocs/ mnettesheim@134.2.58.225:/esd/esd/docs/mnettesheim/
-    rsync -ahuvze 'ssh -p 6307' $OPTIONS \
-       	unidata/ mnettesheim@134.2.58.225:/esd/esd/data/mnettesheim/
-elif [ $1 = "serv" ] ; then
-    cd $DOCS
-    rsync -avhz --delete $OPTIONS  \
-       	--exclude "/data_small/DOUAR" \
-        ./ /Users/mschmiddunser/unidocs/
-    cd $DATA
-    rsync -avhz --delete $OPTIONS ./ /Users/mschmiddunser/unidata/
-elif [ $1 = "servup" ] ; then
-    cd $DOCS
-    rsync -avzu $OPTIONS /Users/mschmiddunser/unidocs/ ./
-    cd $DATA
-    rsync -avzu $OPTIONS /Users/mschmiddunser/unidata/ ./
+    rsync -vrlpthuze 'ssh -p 6307' $OPTIONS \
+	-b --backup-dir="scratch/docsold/" \
+       	unidocs/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/docs/mnettesheim/
+    rsync -vrlpthuze 'ssh -p 6307' $OPTIONS \
+       	unidata/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/data/mnettesheim/
 elif [ $1 = "backup" ] ; then
     cd /Volumes/esd/
     rsync --delete -avhz $OPTIONS docs/mnettesheim/ /Volumes/Matthias1TB/DocsBackup/ 

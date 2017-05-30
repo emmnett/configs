@@ -2,12 +2,31 @@
 set -e
 # Any subsequent(*) commands which fail will cause the shell script to exit immediately
 
-module load paraview_4.4
+module load paraview_5.2
 module load tecplot_360_2015
+
+while true; do
+    read -p "What should be removed? 1:OUT, 2:VTK and Tecplot, 3:All " yn
+    case $yn in
+	1 ) DelOut=1 ; DelVtk=0 ; break ;;
+	2 ) DelOut=0 ; DelVtk=1 ; break ;;
+	3 ) DelOut=1 ; DelVtk=1 ; break ;;
+	* ) echo "Please enter a correct number" ;;
+    esac
+done
+
+while true; do
+    read -p "Do you want to archive those runs? Yes or No? " arch
+    case $arch in
+	[Yy]* ) doarchive=1; break ;;
+	[Nn]* ) doarchive=0; break ;;
+    esac
+done
 
 for run in "$@"; do
 
-cd $run
+cd /esd/esd/data/mnettesheim/model_runs/DOUAR/"$run"
+if [ $DelVtk == "1" ] ; then
 if [ -d VTK ] ; then
 cd VTK
 #Remove all but first and last step
@@ -55,11 +74,31 @@ for file in *dat ; do
 done
 cd ..
 fi
+fi
 
-rm -f OUT/*bin
-rm -f TROUT/*.bin
+if [ $DelOut == "1" ] ; then
+    cd OUT
+    #Remove all but first and last step
+    for file in time_*bin ; do
+	[ -e "$file" ] || break
+	if [ "$file" == "time_0000.bin" ] ; then
+	    rm $file
+	    continue
+	fi
+	modsteps=$(ls time*bin | sed 's/.*time_0*\([1-9][0-9]*\).bin/\1/' | sort -g | uniq)
+	firststep=$(echo $modsteps | head -n 1 | awk '{print $1;}')
+	laststep=$(echo $modsteps | tail -n 1 | awk '{print $NF;}')
+	find . -type f -not -regex  ".*/time_0*\(${firststep}\|${laststep}\)\.bin" -exec rm {} \; 
+	break #only execute once
+    done
+    cd ..
+fi
 
-cd ..
-mv $run oldruns/
+if [ $doarchive = "1" ] ; then
+    cd /esd/esd/data/mnettesheim/model_runs/DOUAR/
+    runbase=$( basename "$run" )
+    tar cvJf /esd/esd/data/mnettesheim/model_runs/DOUAR/oldruns/${runbase}.tar.xz $run
+    rm -r $run
+fi
 
 done
