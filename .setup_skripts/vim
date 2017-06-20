@@ -1,0 +1,20 @@
+# /bin/bash
+
+#install all standard vim extensions
+
+cd $HOME/.vim
+if [ ! -f autoload/pathogen.vim ] ; then
+    echo "Please install Pathogen first!"
+    echo "https://livesoncoffee.wordpress.com/2013/04/11/install-pathogen-vim/"
+    exit
+fi
+
+# Create bundle directory
+if [ ! -d bundle ] ; then mkdir bundle ; fi
+cd bundle
+
+#vim sensible
+if [ ! -d bundle/vim-sensible ] ; then
+    echo "Installing vim sensible"
+    git clone git://github.com/tpope/vim-sensible.git
+fi

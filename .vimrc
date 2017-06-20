@@ -131,7 +131,7 @@ set scrolloff=5
 "Solarized colorscheme
 syntax enable
 set background=dark
-colorscheme solarized
+colorscheme desert
 
 nnoremap z<space> i<space><esc>la<space><esc>
 
