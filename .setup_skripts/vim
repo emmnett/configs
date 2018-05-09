@@ -1,12 +1,12 @@
-# /bin/bash
+# /bin/bash -e
 
 #install all standard vim extensions
 
 cd $HOME/.vim
 if [ ! -f autoload/pathogen.vim ] ; then
-    echo "Please install Pathogen first!"
-    echo "https://livesoncoffee.wordpress.com/2013/04/11/install-pathogen-vim/"
-    exit
+    echo "Installnig Pathogen first!"
+    mkdir -p ~/.vim/autoload ~/.vim/bundle;
+    curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 fi
 
 # Create bundle directory
