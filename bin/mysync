@@ -1,8 +1,8 @@
 #!/bin/bash
 
 OPTIONS="$2"
-DOCS="/esd/esd/docs/mnettesheim"
-DATA="/esd/esd/data/mnettesheim"
+DOCS="/esd/esd01/docs/mnettesheim"
+DATA="/esd/esd01/data/mnettesheim"
 
 if [ $1 = "pupload" ] ; then
     cd $DOCS
@@ -44,10 +44,10 @@ elif [ $1 = "psrcup" ] ; then
        	--exclude-from=douar-wsmp/.gitignore \
         douar-wsmp/ epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp
 elif [ $1 = "psrcdown" ] ; then
-    cd $(DOCS)/src
-    rsync -avhuze ssh $OPTIONS \
+    cd ${DOCS}/src
+    rsync -vrlpthuze ssh $OPTIONS \
        	--exclude-from=douar-wsmp/.gitignore \
-        epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp/ src/douar-wsmp
+        epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp/ douar-wsmp
 elif [ $1 = "pmodels" ] ; then
     cd ${DATA}/model_runs/
     rsync -vrlpthze ssh $OPTIONS \
@@ -62,13 +62,14 @@ elif [ $1 = "pmodels" ] ; then
 elif [ $1 = "unidown" ] ; then
     # Full Download
     cd $HOME
-    rsync -vrptlhze 'ssh -p 6307' $OPTIONS \
-	-b --backup-dir="$HOME/tmp/uni-old/" \
+    rsync -vrlupthze 'ssh -p 6307' $OPTIONS \
+	-b --backup-dir="$HOME/zz_uniold/docs/" \
+	--include ".git" \
         --exclude ".*" \
         --exclude "*~" \
 	--exclude "/src/douar-wsmp" \
 	--exclude "/scratch/docsold" \
-       	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/docs/mnettesheim/ unidocs/
+       	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/docs/mnettesheim/ unidocs/
     rsync -vrlpthze 'ssh -p 6307' --delete $OPTIONS \
         --exclude ".*" \
         --exclude "*~" \
@@ -83,22 +84,31 @@ elif [ $1 = "unidown" ] ; then
         --exclude "*.tar" \
         --exclude "*.tar.?z" \
         --exclude "/*" \
-      	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/data/mnettesheim/ unidata/
+      	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/data/mnettesheim/ unidata/
 elif [ $1 = "uniup" ] ; then
     # Update only full upload
     cd $HOME
-    rsync -vrlpthuze 'ssh -p 6307' $OPTIONS \
+    rsync -vrlpthuze 'ssh -p 6307' --delete $OPTIONS \
 	-b --backup-dir="scratch/docsold/" \
-       	unidocs/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/docs/mnettesheim/
+        --exclude ".*" \
+        --exclude "*~" \
+	--exclude '~$*' \
+	--exclude "scratch/docsold/" \
+       	unidocs/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/docs/mnettesheim/
     rsync -vrlpthuze 'ssh -p 6307' $OPTIONS \
-       	unidata/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd/data/mnettesheim/
+        --exclude ".*" \
+        --exclude "*~" \
+	--exclude '~$*' \
+	--exclude "scratch/dataold/" \
+	-b --backup-dir="scratch/dataold/" \
+       	unidata/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/data/mnettesheim/
 elif [ $1 = "backup" ] ; then
     cd /Volumes/esd/
-    rsync --delete -avhz $OPTIONS docs/mnettesheim/ /Volumes/Matthias1TB/DocsBackup/ 
-    rsync --delete -avhz $OPTIONS data/mnettesheim/ /Volumes/Matthias1TB/DataBackup/ 
+    rsync --delete -vrlpthz $OPTIONS docs/mnettesheim/ /Volumes/Matthias1TB/DocsBackup/ 
+    #rsync --delete -vrlpthz $OPTIONS data/mnettesheim/ /Volumes/Matthias1TB/DataBackup/ 
     cd /Users/mschmiddunser/
-    rsync --delete -avhz $OPTIONS Desktop/ /Volumes/Matthias1TB/DesktopBackup/ 
-    rsync --delete -avhz $OPTIONS bin/ /Volumes/Matthias1TB/binBackup/ 
+    rsync --delete -vrlpthz $OPTIONS Desktop/ /Volumes/Matthias1TB/DesktopBackup/ 
+    rsync --delete -vrlpthz $OPTIONS bin/ /Volumes/Matthias1TB/binBackup/ 
 else
     echo "Please choose correct option" 
 fi

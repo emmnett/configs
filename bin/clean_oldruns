@@ -25,7 +25,7 @@ done
 
 for run in "$@"; do
 
-cd /esd/esd/data/mnettesheim/model_runs/DOUAR/"$run"
+cd /esd/esd01/data/mnettesheim/model_runs/DOUAR/"$run"
 if [ $DelVtk == "1" ] ; then
 if [ -d VTK ] ; then
 cd VTK

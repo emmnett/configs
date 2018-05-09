@@ -14,7 +14,7 @@ if [ ! -d bundle ] ; then mkdir bundle ; fi
 cd bundle
 
 #vim sensible
-if [ ! -d bundle/vim-sensible ] ; then
+if [ ! -d vim-sensible ] ; then
     echo "Installing vim sensible"
     git clone git://github.com/tpope/vim-sensible.git
 fi
