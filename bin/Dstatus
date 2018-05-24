@@ -1,0 +1,24 @@
+#! /bin/bash
+for run in "$@"; do
+
+echo "Status for $run"
+cd /esd/esd01/data/mnettesheim/model_runs/DOUAR/"$run"
+
+echo "$(ls OUT 2> /dev/null | wc -l) bin files up to" $(ls OUT 2> /dev/null | tail -n 1)
+
+if [ -d VTK ] ; then
+    echo "$(ls VTK/* 2> /dev/null | wc -l) VTK files up to" $(ls VTK/visu* 2> /dev/null | tail -n 1)
+else
+    echo "No VTK directory"
+fi
+
+if [ -d PNG ] ; then
+    cd PNG
+    if [ -d Overview ] ; then cd Overview ; fi
+    echo "Overview up to" $(ls *png 2> /dev/null | tail -n 1)
+else
+    echo "No PNG directory"
+fi
+echo ""
+
+done

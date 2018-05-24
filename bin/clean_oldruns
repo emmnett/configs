@@ -95,9 +95,9 @@ if [ $DelOut == "1" ] ; then
 fi
 
 if [ $doarchive = "1" ] ; then
-    cd /esd/esd/data/mnettesheim/model_runs/DOUAR/
+    cd /esd/esd01/data/mnettesheim/model_runs/DOUAR/
     runbase=$( basename "$run" )
-    tar cvJf /esd/esd/data/mnettesheim/model_runs/DOUAR/oldruns/${runbase}.tar.xz $run
+    tar cvJf /esd/esd01/data/mnettesheim/model_runs/DOUAR/oldruns/${runbase}.tar.xz $run
     rm -r $run
 fi
 

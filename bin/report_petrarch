@@ -1,0 +1,5 @@
+#!/bin/bash
+
+(ssh -l epiie01 ilogin.hpc.uni-tuebingen.de "running_jobs; qstat -n1 esd1") | \
+mailx -s "Jobs on Petrarch" epiie01@uni-tuebingen.de
+
