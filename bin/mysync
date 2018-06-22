@@ -9,7 +9,7 @@ if [ $1 = "pupload" ] ; then
     rsync -vrlpthze ssh $OPTIONS \
         --exclude ".*" \
         --exclude "*~" \
-        documents/DOUAR/ epiie01@ilogin.hpc.uni-tuebingen.de:documents
+        documents/DOUAR/ epiie01@glogin.hpc.uni-tuebingen.de:documents
     cd $DATA
     rsync -vrlpthze ssh $OPTIONS \
         --exclude ".*" \
@@ -19,13 +19,13 @@ if [ $1 = "pupload" ] ; then
         --include "/qsub/" \
 	--include "/qsub/**" \
         --exclude "*" \
-        model_runs/DOUAR/ epiie01@ilogin.hpc.uni-tuebingen.de:model_runs
+        model_runs/DOUAR/ epiie01@glogin.hpc.uni-tuebingen.de:model_runs
 elif [ $1 = "pdownload" ] ; then
     cd $DOCS
     rsync -vrlpthuze ssh $OPTIONS \
         --exclude ".*" \
         --exclude "*~" \
-       	epiie01@ilogin.hpc.uni-tuebingen.de:documents/ documents/DOUAR 
+       	epiie01@glogin.hpc.uni-tuebingen.de:documents/ documents/DOUAR 
     cd $DATA
     rsync -vrlpthuze ssh $OPTIONS \
         --exclude ".*" \
@@ -37,17 +37,17 @@ elif [ $1 = "pdownload" ] ; then
         --include "/out/" \
 	--include "/out/**" \
         --exclude "*" \
-	epiie01@ilogin.hpc.uni-tuebingen.de:model_runs/ model_runs/DOUAR/
+	epiie01@glogin.hpc.uni-tuebingen.de:model_runs/ model_runs/DOUAR/
 elif [ $1 = "psrcup" ] ; then
     cd ${DOCS}/src
     rsync -vrlpthuze ssh $OPTIONS \
        	--exclude-from=douar-wsmp/.gitignore \
-        douar-wsmp/ epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp
+        douar-wsmp/ epiie01@glogin.hpc.uni-tuebingen.de:src/douar-wsmp
 elif [ $1 = "psrcdown" ] ; then
     cd ${DOCS}/src
     rsync -vrlpthuze ssh $OPTIONS \
        	--exclude-from=douar-wsmp/.gitignore \
-        epiie01@ilogin.hpc.uni-tuebingen.de:src/douar-wsmp/ douar-wsmp
+        epiie01@glogin.hpc.uni-tuebingen.de:src/douar-wsmp/ douar-wsmp
 elif [ $1 = "pmodels" ] ; then
     cd ${DATA}/model_runs/
     rsync -vrlpthze ssh $OPTIONS \
@@ -58,7 +58,7 @@ elif [ $1 = "pmodels" ] ; then
         --exclude "/qsub" \
         --exclude "/input" \
 	--include "*" \
-	epiie01@ilogin.hpc.uni-tuebingen.de:model_runs/ ./DOUAR 
+	epiie01@glogin.hpc.uni-tuebingen.de:model_runs/ ./DOUAR 
 elif [ $1 = "unidown" ] ; then
     # Full Download
     cd $HOME

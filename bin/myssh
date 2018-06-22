@@ -17,7 +17,7 @@ elif [ "$1" == "agassiz" ] ; then
     ssh -p 6307 $2 mnettesheim@agassiz.geowissenschaften.uni-tuebingen.de $3
     #ssh -p 6307 $2 mnettesheim@134.2.5.33 $3
 elif [ "$1" == "petrarch" ] ; then
-    ssh $2 epiie01@ilogin.hpc.uni-tuebingen.de $3
+    ssh $2 epiie01@glogin.hpc.uni-tuebingen.de $3
     #ssh $2 epiie01@134.2.3.39 $3
 else
     echo "Host not defined"
