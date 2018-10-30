@@ -2,7 +2,10 @@
 
 #install all standard vim extensions
 
-cd $HOME/.vim
+cd $HOME
+if [ ! -d .vim ] ; then mkdir .vim ; fi
+cd .vim
+
 if [ ! -f autoload/pathogen.vim ] ; then
     echo "Installnig Pathogen first!"
     mkdir -p ~/.vim/autoload ~/.vim/bundle;
