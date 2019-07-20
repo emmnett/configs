@@ -7,27 +7,27 @@ if [ ! -d shortcuts ] ; then
 fi
 cd shortcuts
 
-if [ -f data ] ; then
+if [ -e data ] ; then
     rm data
 fi
 ln -s /esd/esd01/data/mnettesheim/ data
 
-if [ -f docs ] ; then
+if [ -e docs ] ; then
     rm docs
 fi
 ln -s /esd/esd01/docs/mnettesheim/ docs
 
-if [ -f douarsrc ] ; then
+if [ -e douarsrc ] ; then
     rm douarsrc
 fi
-ln -s /esd/esd01/src/mnettesheim/src/douar-wsmp/src douarsrc
+ln -s /esd/esd01/docs/mnettesheim/src/douar-wsmp/src douarsrc
 
-if [ -f douardocs ] ; then
+if [ -e douardocs ] ; then
     rm douardocs
 fi
 ln -s /esd/esd01/docs/mnettesheim/documents/DOUAR douardocs
 
-if [ -f douarmodels ] ; then
+if [ -e douarmodels ] ; then
     rm douarmodels
 fi
 ln -s /esd/esd01/data/mnettesheim/model_runs/DOUAR/ douarmodels
