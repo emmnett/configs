@@ -3,25 +3,30 @@ set -e
 # Any subsequent(*) commands which fail will cause the shell script to exit immediately
 
 module load paraview_5.2
-module load tecplot_360_2015
+#module load tecplot_360_2015
 
-while true; do
-    read -p "What should be removed? 1:OUT, 2:VTK and Tecplot, 3:All " yn
-    case $yn in
-	1 ) DelOut=1 ; DelVtk=0 ; break ;;
-	2 ) DelOut=0 ; DelVtk=1 ; break ;;
-	3 ) DelOut=1 ; DelVtk=1 ; break ;;
-	* ) echo "Please enter a correct number" ;;
-    esac
-done
+#while true; do
+#    read -p "What should be removed? 1:OUT, 2:VTK and Tecplot, 3:All " yn
+#    case $yn in
+#	1 ) DelOut=1 ; DelVtk=0 ; break ;;
+#	2 ) DelOut=0 ; DelVtk=1 ; break ;;
+#	3 ) DelOut=1 ; DelVtk=1 ; break ;;
+#	* ) echo "Please enter a correct number" ;;
+#    esac
+#done
+#
+#while true; do
+#    read -p "Do you want to archive those runs? Yes or No? " arch
+#    case $arch in
+#	[Yy]* ) doarchive=1; break ;;
+#	[Nn]* ) doarchive=0; break ;;
+#    esac
+#done
 
-while true; do
-    read -p "Do you want to archive those runs? Yes or No? " arch
-    case $arch in
-	[Yy]* ) doarchive=1; break ;;
-	[Nn]* ) doarchive=0; break ;;
-    esac
-done
+DelOut=1
+DelVtk=1
+doarchive=0
+
 
 for run in "$@"; do
 

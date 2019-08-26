@@ -1,54 +1,10 @@
 #!/bin/bash
 
 OPTIONS="$2"
-DOCS="/esd/esd01/docs/mnettesheim"
-DATA="/esd/esd01/data/mnettesheim"
+DOCS="/esd/esd02/docs/old_users/mnettesheim"
+DATA="/esd/esd02/data/old_users/mnettesheim"
 
-if [ $1 = "pupload" ] ; then
-    cd $DOCS
-    rsync -vrlpthze ssh $OPTIONS \
-        --exclude ".*" \
-        --exclude "*~" \
-        documents/DOUAR/ epiie01@glogin.hpc.uni-tuebingen.de:documents
-    cd $DATA
-    rsync -vrlpthze ssh $OPTIONS \
-        --exclude ".*" \
-        --exclude "*~" \
-        --include "/input/" \
-	--include "/input/**" \
-        --include "/qsub/" \
-	--include "/qsub/**" \
-        --exclude "*" \
-        model_runs/DOUAR/ epiie01@glogin.hpc.uni-tuebingen.de:model_runs
-elif [ $1 = "pdownload" ] ; then
-    cd $DOCS
-    rsync -vrlpthuze ssh $OPTIONS \
-        --exclude ".*" \
-        --exclude "*~" \
-       	epiie01@glogin.hpc.uni-tuebingen.de:documents/ documents/DOUAR 
-    cd $DATA
-    rsync -vrlpthuze ssh $OPTIONS \
-        --exclude ".*" \
-        --exclude "*~" \
-        --include "/input/" \
-	--include "/input/**" \
-        --include "/qsub/" \
-	--include "/qsub/**" \
-        --include "/out/" \
-	--include "/out/**" \
-        --exclude "*" \
-	epiie01@glogin.hpc.uni-tuebingen.de:model_runs/ model_runs/DOUAR/
-elif [ $1 = "psrcup" ] ; then
-    cd ${DOCS}/src
-    rsync -vrlpthuze ssh $OPTIONS \
-       	--exclude-from=douar-wsmp/.gitignore \
-        douar-wsmp/ epiie01@glogin.hpc.uni-tuebingen.de:src/douar-wsmp
-elif [ $1 = "psrcdown" ] ; then
-    cd ${DOCS}/src
-    rsync -vrlpthuze ssh $OPTIONS \
-       	--exclude-from=douar-wsmp/.gitignore \
-        epiie01@glogin.hpc.uni-tuebingen.de:src/douar-wsmp/ douar-wsmp
-elif [ $1 = "pmodels" ] ; then
+if [ $1 = "pmodels" ] ; then
     cd ${DATA}/model_runs/
     rsync -vrlpthze ssh $OPTIONS \
         --exclude ".*" \
@@ -59,56 +15,6 @@ elif [ $1 = "pmodels" ] ; then
         --exclude "/input" \
 	--include "*" \
 	epiie01@glogin.hpc.uni-tuebingen.de:model_runs/ ./DOUAR 
-elif [ $1 = "unidown" ] ; then
-    # Full Download
-    cd $HOME
-    rsync -vrlupthze 'ssh -p 6307' $OPTIONS \
-	-b --backup-dir="$HOME/zz_uniold/docs/" \
-	--include ".git" \
-        --exclude ".*" \
-        --exclude "*~" \
-	--exclude "/src/douar-wsmp" \
-	--exclude "/scratch/docsold" \
-       	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/docs/mnettesheim/ unidocs/
-    rsync -vrlpthze 'ssh -p 6307' --delete $OPTIONS \
-        --exclude ".*" \
-        --exclude "*~" \
-        --include "/model_runs" \
-        --include "/model_runs/DOUAR" \
-        --exclude "/model_runs/*" \
-        --include "/model_runs/DOUAR/*" \
-        --exclude "*.dat" \
-        --exclude "*.vtk" \
-        --exclude "*.vtu" \
-        --exclude "*.bin" \
-        --exclude "*.tar" \
-        --exclude "*.tar.?z" \
-        --exclude "/*" \
-      	mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/data/mnettesheim/ unidata/
-elif [ $1 = "uniup" ] ; then
-    # Update only full upload
-    cd $HOME
-    rsync -vrlpthuze 'ssh -p 6307' --delete $OPTIONS \
-	-b --backup-dir="scratch/docsold/" \
-        --exclude ".*" \
-        --exclude "*~" \
-	--exclude '~$*' \
-	--exclude "scratch/docsold/" \
-       	unidocs/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/docs/mnettesheim/
-    rsync -vrlpthuze 'ssh -p 6307' $OPTIONS \
-        --exclude ".*" \
-        --exclude "*~" \
-	--exclude '~$*' \
-	--exclude "scratch/dataold/" \
-	-b --backup-dir="scratch/dataold/" \
-       	unidata/ mnettesheim@arduino.geowissenschaften.uni-tuebingen.de:/esd/esd01/data/mnettesheim/
-elif [ $1 = "backup" ] ; then
-    cd /Volumes/esd/
-    rsync --delete -vrlpthz $OPTIONS docs/mnettesheim/ /Volumes/Matthias1TB/DocsBackup/ 
-    #rsync --delete -vrlpthz $OPTIONS data/mnettesheim/ /Volumes/Matthias1TB/DataBackup/ 
-    cd /Users/mschmiddunser/
-    rsync --delete -vrlpthz $OPTIONS Desktop/ /Volumes/Matthias1TB/DesktopBackup/ 
-    rsync --delete -vrlpthz $OPTIONS bin/ /Volumes/Matthias1TB/binBackup/ 
 else
     echo "Please choose correct option" 
 fi
